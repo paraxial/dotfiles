@@ -1,6 +1,9 @@
 call plug#begin(stdpath('config') . '/plugged')
 " Declare the list of plugins.
 
+" CoVim provides remote co-editing support to vim"
+Plug 'FredKSchott/CoVim'
+
 Plug 'Rigellute/shades-of-purple.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/fzf.vim'
@@ -22,6 +25,9 @@ Plug 'tpope/vim-rails'
 Plug 'tpope/vim-surround'
 Plug 'vim-ruby/vim-ruby'
 Plug 'vim-syntastic/syntastic'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-test/vim-test'
 Plug 'neomake/neomake'
 
 Plug 'tpope/vim-sensible'
@@ -29,8 +35,13 @@ Plug 'rstacruz/vim-opinion'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+Plug 'flazz/vim-colorschemes'
+Plug 'arcticicestudio/nord-vim'
+
+Plug 'ryanoasis/vim-devicons' " vim-devicons must be last
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
+
 
 if (has("termguicolors"))
  set termguicolors
@@ -40,7 +51,19 @@ set mouse=n
 set number
 syntax enable
 set clipboard+=unnamedplus
+
+" vim-devicons
+set encoding=UTF-8
+let g:webdevicons_enable = 1
+let g:webdevicons_enable_nerdtree = 1
+let g:webdevicons_enable_airline_statusline = 1
+let g:webdevicons_enable_airline_tabline = 1
+
+" Colour schemes
+" colorscheme nord
+" colorscheme neonwave
 colorscheme shades_of_purple
+
 
 set list listchars=tab:\ \ ,trail:·
 let mapleader=","
@@ -62,6 +85,13 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
+" Run Tests
+nmap <silent> t<C-n> :TestNearest<CR>
+nmap <silent> t<C-f> :TestFile<CR>
+nmap <silent> t<C-s> :TestSuite<CR>
+nmap <silent> t<C-l> :TestLast<CR>
+nmap <silent> t<C-g> :TestVisit<CR>
+
 " From Ritchie
 nnoremap ,r :!bin/rspec %<cr>
 
@@ -75,7 +105,7 @@ nnoremap <silent> ,cn :let @* = expand("%:t")<CR>
 
 nmap <silent> // :nohlsearch<CR>
 
-let g:fzf_layout = { 'down': '35%' }
+let g:fzf_layout = { 'down': '25%' }
 
 command! -bang -nargs=* Ag
   \ call fzf#vim#grep(
@@ -118,9 +148,13 @@ endfunction
 command! StripTrailingWhitespaces call <SID>StripTrailingWhitespaces()
 nmap ,w :StripTrailingWhitespaces<CR>
 
+" Airline config
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
+let g:airline_section_a = airline#section#create(['mode'])
+let g:airline_section_b = airline#section#create(['branch'])
+let g:airline#extensions#tabline#enabled = 1
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
@@ -134,5 +168,15 @@ let g:syntastic_ruby_checkers = ['mri']
 " Run linting automatically.
 autocmd VimEnter * call neomake#configure#automake('nrwi', 500)
 
+"  Show hidden files
+let NERDTreeShowHidden=1
+
 let g:neomake_open_list = 5
 let g:neomake_ruby_enabled_makers = ['rubocop']
+
+" Custom yaml folding and indent guide
+autocmd FileType yaml setlocal foldmethod=indent ts=2 sts=2 sw=2 expandtab
+autocmd FileType yml setlocal foldmethod=indent ts=2 sts=2 sw=2 expandtab
+let g:indentLine_char = '⦙'
+
+tnoremap <esc><esc> <c-\><c-n>
