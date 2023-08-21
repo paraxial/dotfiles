@@ -29,6 +29,8 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-test/vim-test'
 Plug 'neomake/neomake'
+Plug 'Pocco81/auto-save.nvim'
+Plug 'editorconfig/editorconfig-vim'
 
 Plug 'tpope/vim-sensible'
 Plug 'rstacruz/vim-opinion'
@@ -38,10 +40,20 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'flazz/vim-colorschemes'
 Plug 'arcticicestudio/nord-vim'
 
+
+" Plug 'jooize/vim-colemak'
+
 Plug 'ryanoasis/vim-devicons' " vim-devicons must be last
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
 
+" Requires nvim of at least 0.7.0 to run
+lua << EOF
+	require("auto-save").setup {
+		-- your config goes here
+		-- or just leave it empty :)
+	}
+EOF
 
 if (has("termguicolors"))
  set termguicolors
@@ -68,6 +80,8 @@ colorscheme shades_of_purple
 set list listchars=tab:\ \ ,trail:·
 let mapleader=","
 
+" Show hidden folders in nerdtree for great justice.
+let NERDTreeShowHidden=1
 function! OpenNerdTree()
   if &modifiable && strlen(expand('%')) > 0 && !&diff
     NERDTreeFind
@@ -97,6 +111,7 @@ nnoremap ,r :!bin/rspec %<cr>
 
 " To summon :Git which shows changed files
 nnoremap ,g :Git<cr>
+command! -nargs=* Lens Git blame
 
 " YADR: copy current filname to clipboard"
 nnoremap <silent> ,cf :let @* = expand("%:~")<CR>
@@ -113,6 +128,11 @@ command! -bang -nargs=* Ag
   \   <bang>0 ? fzf#vim#with_preview('up:60%')
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
+
+" TODO: Find and replace all files. Write a command for this.
+" :args `rg -l search-term folder`
+" :args
+" :argdo %s/term/replace/g | update
 
 let g:ctrlp_map = ',t'
 let g:ctrlp_use_caching = 0
@@ -166,7 +186,7 @@ let g:syntastic_aggregate_errors = 1
 let g:syntastic_ruby_checkers = ['mri']
 
 " Run linting automatically.
-autocmd VimEnter * call neomake#configure#automake('nrwi', 500)
+autocmd VimEnter * call neomake#configure#automake('nri', 3000)
 
 "  Show hidden files
 let NERDTreeShowHidden=1

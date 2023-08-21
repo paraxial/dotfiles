@@ -1,0 +1,24 @@
+format = """
+[│](bold fg:63)$kubernetes$terraform$directory$git_branch
+[└─>](bold fg:63) """
+
+[git_branch]
+format = " [$symbol$branch]($style) "
+symbol = "🍣 "
+style="bold fg:105"
+
+[directory]
+truncation_symbol = "📁.../"
+truncation_length = 16
+format = "[$path]($style)[$lock_symbol]($lock_style) "
+
+[kubernetes]
+format = '[☸️  k8s: $context](green) '
+disabled = false
+
+[terraform]
+format = '[$symbol$workspace]($style) '
+disabled = false
+
+[package]
+disabled = true
