@@ -1,0 +1,18 @@
+alias gplr="git pull origin --rebase"
+alias yeet='git push origin $(git rev-parse --abbrev-ref HEAD)'
+alias yolo='yeet --force-with-lease'
+
+alias br='dotenv -f .env.local bin/rails'
+alias rc='dotenv -f .env.local bin/rails c'
+alias rs='dotenv -f .env.local bin/rails s'
+alias d='dotenv -f .env.local'
+
+
+alias be='dotenv -f .env.local bundle exec'
+alias bet='dotenv -f .env.test bundle exec'
+
+alias wip='git add . && git commit -m "[WIP] You should not be seeing this commit"'
+alias unwip='git reset HEAD~1'
+
+alias staged='git --no-pager diff --name-only --cached'
+alias lint='staged | tr "\n" " " |  bundle exec xargs rubocop -a'

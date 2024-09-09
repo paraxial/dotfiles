@@ -59,6 +59,8 @@ if (has("termguicolors"))
  set termguicolors
 endif
 
+" Add terminal newline if not present
+set fixeol
 set mouse=n
 set number
 syntax enable
@@ -70,6 +72,8 @@ let g:webdevicons_enable = 1
 let g:webdevicons_enable_nerdtree = 1
 let g:webdevicons_enable_airline_statusline = 1
 let g:webdevicons_enable_airline_tabline = 1
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols = {}
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['vue'] = 'V'
 
 " Colour schemes
 " colorscheme nord
@@ -186,7 +190,8 @@ let g:syntastic_aggregate_errors = 1
 let g:syntastic_ruby_checkers = ['mri']
 
 " Run linting automatically.
-autocmd VimEnter * call neomake#configure#automake('nri', 3000)
+
+autocmd VimEnter * call neomake#configure#automake('nri', 5000)
 
 "  Show hidden files
 let NERDTreeShowHidden=1

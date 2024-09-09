@@ -1,24 +1,15 @@
-format = """
-[│](bold fg:63)$kubernetes$terraform$directory$git_branch
-[└─>](bold fg:63) """
-
-[git_branch]
-format = " [$symbol$branch]($style) "
-symbol = "🍣 "
-style="bold fg:105"
+format = '$git_branch$directory$battery$time$status$shell$character'
 
 [directory]
-truncation_symbol = "📁.../"
-truncation_length = 16
-format = "[$path]($style)[$lock_symbol]($lock_style) "
+format='[🗂️  $path]($style)[$read_only]($read_only_style) '
+style='fg:#2f1c1e bg:#b5ffa9'
 
-[kubernetes]
-format = '[☸️  k8s: $context](green) '
-disabled = false
+[aws]
+format=''
 
-[terraform]
-format = '[$symbol$workspace]($style) '
-disabled = false
+[docker_context]
+format=''
 
-[package]
-disabled = true
+[git_branch]
+format='[🌱 $branch(:$remote_branch)]($style) '
+style='bg:#2f1c1e fg:#b5ffa9'
